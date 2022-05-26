@@ -17,7 +17,7 @@ import (
 )
 
 // DB Connection string
-const connectionString = "Connection String"
+const connectionString = "mongodb://username:password@localhost:27017"
 
 // DB name
 const dbName = "test"
@@ -133,12 +133,12 @@ func insertOneTask(task models.ToDoList) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Inserted a single record ", insertResult.InsertID)
+	fmt.Println("Inserted a single record ", insertResult.InsertedID)
 }
 
 func taskComplete(task string) {
 	fmt.Println(task)
-	id, _ := primite.ObjectIDFromHex(task)
+	id, _ := primitive.ObjectIDFromHex(task)
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"status": true}}
 	result, err := collection.UpdateOne(context.Background(), filter, update)
@@ -159,7 +159,7 @@ func undoTask(task string) {
 		log.Fatal(err)
 	}
 
-	fmt.println("modified count: ", result.ModifiedCount)
+	fmt.Println("modified count: ", result.ModifiedCount)
 }
 
 func deleteOneTask(task string) {
